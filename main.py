@@ -68,16 +68,52 @@ def check_status(moves):
         if check_row(board, row) or check_col(board, col) or check_diag(board, row, col):
             if current_player == 1:
                 print("X wins")
+                return
             elif current_player == 2:
                 print("O wins")
+                return
 
         current_player = 3 - current_player # Swaps 1 and 2
     
+    # TODO: Check for excess moves
+
     if len(moves) == 9:
         print("Draw")
     else:
         print("In Progress")
 
 
+def parse_move_string(moves_string):
+    if not ( moves_string[0] == "[" and moves_string[-1] == "]" ):
+        print("No square brackets")
+        return # No square brackets
+    
+    moves_string = moves_string[1:-1]
+
+    # First part is an empty string
+    move_tuple_list = moves_string.split("(")[1:]
+    # TODO: Could there be a trailing comma?
+
+    moves = []
+
+    for move_tuple in move_tuple_list:
+        move_fragments = move_tuple.split(",")
+
+        if len(move_fragments) < 2:
+            return # Not enough
+        
+        # TODO: Check if they are valid ints
+        row = int(move_fragments[0].strip())
+        col = int(move_fragments[1].strip()[0])
+
+        moves.append((row, col))
+    
+    return moves
+
 def main():
-    pass
+    # Example input: [(0, 0), (1, 1), (0, 1), (1, 0), (0, 2)]
+    moves_string = input("Enter the series of moves (array of tuples): ")
+    moves = parse_move_string(moves_string)
+    check_status(moves)
+
+main()
