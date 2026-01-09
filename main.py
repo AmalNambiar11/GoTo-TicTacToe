@@ -1,55 +1,36 @@
 
-def check_row(board, row):
-    # Check if a row is filled with either X or O
-    first_cell = board[row][0]
+def check_triplet(triple):
+    first_cell = triple[0]
 
     if first_cell == 0:
         return False
 
-    for col in range(1, 3):
-        if board[row][col] != first_cell:
+    for i in range(1, 3):
+        if triple[i] != first_cell:
             return False
     
     return True
+
+def check_row(board, row):
+    # Check if a row is filled with either X or O 
+    row = board[row] 
+    return check_triplet(row)
 
 
 def check_col(board, col):
     # Check if a column is filled with either X or O
-    first_cell = board[0][col]
-
-    if first_cell == 0:
-        return False
-
-    for row in range(1, 3):
-        if board[row][col] != first_cell:
-            return False
-    
-    return True
+    column = [ board[row][col] for row in range(3) ]
+    return check_triplet(column)
 
 def check_diag(board, row, col):
     if row == col:
-        first_cell = board[0][0]
-
-        if first_cell == 0:
-            return False
-
-        for t in range(3):
-            if board[t][t] != first_cell:
-                return False
-
-        return True
+        diag = [ board[i][i] for i in range(3) ]
     elif row + col == 2:
-        first_cell = board[0][2]
-
-        if first_cell == 0:
-            return False
-
-        for t in range(3):
-            if board[t][2 - t] != first_cell:
-                return False
-
-        return True
-    return False
+        diag = [ board[i][2 - i] for i in range(3) ]
+    else:
+        return False
+    
+    return check_triplet(diag)
 
 def check_status(moves):
     # Takes a list of tuples. Returns status
