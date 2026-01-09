@@ -26,6 +26,31 @@ def check_col(board, col):
     
     return True
 
+def check_diag(board, row, col):
+    if row == col:
+        first_cell = board[0][0]
+
+        if first_cell == 0:
+            return False
+
+        for t in range(3):
+            if board[t][t] != first_cell:
+                return False
+
+        return True
+    elif row + col == 2:
+        first_cell = board[0][2]
+
+        if first_cell == 0:
+            return False
+
+        for t in range(3):
+            if board[t][2 - t] != first_cell:
+                return False
+
+        return True
+    return False
+
 def check_status(moves):
     # Takes a list of tuples. Returns status
     # X and O are 1 and 2 respectively
@@ -40,7 +65,7 @@ def check_status(moves):
         board[row][col] = current_player
 
         # Checks for win condition
-        if check_row(board, row) or check_col(board, col):
+        if check_row(board, row) or check_col(board, col) or check_diag(board, row, col):
             if current_player == 1:
                 print("X wins")
             elif current_player == 2:
@@ -55,5 +80,4 @@ def check_status(moves):
 
 
 def main():
-
     pass
