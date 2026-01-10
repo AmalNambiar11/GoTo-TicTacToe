@@ -39,26 +39,28 @@ def check_status(moves):
 
     current_player = 1
 
-    # Check if moves are reused
+    # TODO: Check if moves are reused
 
+    # Construct the board
     for move in moves:
         row, col = move
         board[row][col] = current_player
-
-        # Checks for win condition
-        if check_row(board, row) or check_col(board, col) or check_diag(board, row, col):
-            if current_player == 1:
-                print("X wins")
-                return
-            elif current_player == 2:
-                print("O wins")
-                return
 
         current_player = 3 - current_player # Swaps 1 and 2
     
     # TODO: Check for excess moves
 
-    if len(moves) == 9:
+    row, col = moves[-1]
+
+    # Checks for win condition
+    if check_row(board, row) or check_col(board, col) or check_diag(board, row, col):
+        player = board[row][col]
+
+        if player == 1:
+            print("X wins")
+        elif player == 2:
+            print("O wins")
+    elif len(moves) == 9:
         print("Draw")
     else:
         print("In Progress")
